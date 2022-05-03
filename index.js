@@ -15,9 +15,16 @@ function renderMovies(movies) {
   results.innerHTML = movieHTMLArray.join("");
 }
 
-renderMovies(movieData);
-
 const myForm = document.getElementById("search-form");
 myForm.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  const searchString = document.querySelector(".search-bar").value;
+  const urlEncodedSearchString = encodeURIComponent(searchString);
+
+  fetch(`http://www.omdbapi.com/?apikey=59354c85&s=${urlEncodedSearchString}`)
+    .then((res) => res.json())
+    .then((data) => {
+      renderMovies(data.Search);
+    });
 });
